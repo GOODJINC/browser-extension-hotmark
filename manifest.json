@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "Hotmark",
+  "version": "0.1.0",
+  "description": "URL과 북마크를 키보드 단축키로 빠르게 여는 브라우저 확장 프로그램",
+  "permissions": [
+    "bookmarks",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Hotmark",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "options_page": "options/options.html",
+  "commands": {
+    "custom-slot-1": { "description": "사용자 URL 슬롯 1 열기" },
+    "custom-slot-2": { "description": "사용자 URL 슬롯 2 열기" },
+    "custom-slot-3": { "description": "사용자 URL 슬롯 3 열기" },
+    "custom-slot-4": { "description": "사용자 URL 슬롯 4 열기" },
+    "custom-slot-5": { "description": "사용자 URL 슬롯 5 열기" },
+    "custom-slot-6": { "description": "사용자 URL 슬롯 6 열기" },
+    "custom-slot-7": { "description": "사용자 URL 슬롯 7 열기" },
+    "custom-slot-8": { "description": "사용자 URL 슬롯 8 열기" },
+    "custom-slot-9": { "description": "사용자 URL 슬롯 9 열기" },
+    "custom-slot-10": { "description": "사용자 URL 슬롯 10 열기" },
+    "bookmark-slot-1": {
+      "suggested_key": { "default": "Ctrl+Shift+1" },
+      "description": "북마크 바 1번 항목 열기"
+    },
+    "bookmark-slot-2": {
+      "suggested_key": { "default": "Ctrl+Shift+2" },
+      "description": "북마크 바 2번 항목 열기"
+    },
+    "bookmark-slot-3": {
+      "suggested_key": { "default": "Ctrl+Shift+3" },
+      "description": "북마크 바 3번 항목 열기"
+    },
+    "bookmark-slot-4": {
+      "suggested_key": { "default": "Ctrl+Shift+4" },
+      "description": "북마크 바 4번 항목 열기"
+    },
+    "bookmark-slot-5": { "description": "북마크 바 5번 항목 열기" },
+    "bookmark-slot-6": { "description": "북마크 바 6번 항목 열기" },
+    "bookmark-slot-7": { "description": "북마크 바 7번 항목 열기" },
+    "bookmark-slot-8": { "description": "북마크 바 8번 항목 열기" },
+    "bookmark-slot-9": { "description": "북마크 바 9번 항목 열기" },
+    "bookmark-slot-10": { "description": "북마크 바 10번 항목 열기" }
+  }
+}

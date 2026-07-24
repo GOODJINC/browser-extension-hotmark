@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hotmark</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <img src="../assets/icon.svg" alt="" width="30" height="30">
+        <div><strong>Hotmark</strong><span>빠른 페이지 실행</span></div>
+      </div>
+      <button id="settings-button" class="icon-button" type="button" title="설정">⚙</button>
+    </header>
+
+    <main>
+      <div id="error" class="notice error" hidden></div>
+
+      <section id="folder-section" hidden>
+        <div class="section-heading folder-heading">
+          <button id="folder-back" class="back-button" type="button" hidden>←</button>
+          <div><span class="eyebrow">폴더</span><h1 id="folder-title"></h1></div>
+        </div>
+        <div id="folder-list" class="item-list"></div>
+      </section>
+
+      <div id="home-view">
+        <section>
+          <div class="section-heading"><h1>내 바로가기</h1><span id="custom-count" class="count"></span></div>
+          <div id="custom-list" class="item-list"></div>
+        </section>
+
+        <section>
+          <div class="section-heading"><h1>북마크 바</h1><span class="hint">앞쪽 10개</span></div>
+          <div id="bookmark-list" class="item-list"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <button id="shortcuts-button" class="text-button" type="button">키보드 단축키 설정</button>
+    </footer>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

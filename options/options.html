@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hotmark 설정</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <img src="../assets/icon.svg" alt="" width="58" height="58">
+        <div><p class="eyebrow">URL & BOOKMARK SHORTCUTS</p><h1>Hotmark 설정</h1><p>원하는 페이지와 북마크 바를 키보드로 바로 여세요.</p></div>
+      </header>
+
+      <aside class="callout">
+        <div><strong>단축키는 브라우저에서 지정합니다.</strong><p>Chromium 보안 정책상 확장 프로그램이 키 조합을 직접 변경할 수 없습니다. Ctrl+Alt 조합도 AltGr 충돌 때문에 사용할 수 없습니다.</p></div>
+        <button id="open-shortcuts" class="secondary" type="button">단축키 설정 열기</button>
+      </aside>
+
+      <form id="settings-form">
+        <section class="card">
+          <div class="card-heading"><div><h2>내 바로가기</h2><p>북마크와 무관하게 최대 10개의 URL을 등록합니다.</p></div>
+            <label class="compact">기본 열기 방식<select id="custom-open-mode"><option value="new-tab">새 탭</option><option value="current-tab">현재 탭</option><option value="background-tab">백그라운드 탭</option></select></label>
+          </div>
+          <div class="slot-header"><span>슬롯</span><span>이름과 URL</span><span>열기 방식</span><span>단축키</span></div>
+          <div id="custom-slots"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-heading"><div><h2>북마크 바</h2><p>브라우저 북마크 바의 실제 순서에서 앞쪽 10개 항목을 사용합니다.</p></div></div>
+          <div class="settings-grid">
+            <label>페이지 열기 방식<select id="bookmark-open-mode"><option value="new-tab">새 탭</option><option value="current-tab">현재 탭</option><option value="background-tab">백그라운드 탭</option></select></label>
+            <label>폴더 실행 방식<select id="folder-action"><option value="menu">내용 메뉴 표시 (권장)</option><option value="direct-children">바로 아래 페이지만 모두 열기</option><option value="recursive">하위 폴더까지 모두 열기</option><option value="ignore">폴더 무시</option></select></label>
+            <label>한 번에 열 최대 탭 수<input id="max-folder-tabs" type="number" min="1" max="50" inputmode="numeric"><small>초과하면 안전하게 폴더 메뉴를 표시합니다.</small></label>
+          </div>
+          <div id="bookmark-preview" class="preview"></div>
+        </section>
+
+        <div class="savebar"><span id="status" role="status"></span><button class="primary" type="submit">설정 저장</button></div>
+      </form>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

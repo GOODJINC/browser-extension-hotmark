@@ -17,6 +17,10 @@ function shortcutFor(commandName) {
   return commandMap.get(commandName) || "미지정";
 }
 
+function slotCommand(type, slot) {
+  return `${type}-slot-${String(slot).padStart(2, "0")}`;
+}
+
 function hostOf(url) {
   try { return new URL(url).hostname.replace(/^www\./, ""); }
   catch { return url; }
@@ -74,6 +78,7 @@ async function showFolder(folderId, pushHistory = true) {
       onClick: () => item.url ? openBookmark(item.id) : showFolder(item.id)
     }));
   }
+  requestAnimationFrame(() => folderList.querySelector(".item")?.focus({ preventScroll: true }));
 }
 
 function renderHome(state) {
@@ -87,7 +92,7 @@ function renderHome(state) {
       icon: String(slot.id === 10 ? 0 : slot.id),
       title: slot.title || hostOf(slot.url),
       subtitle: hostOf(slot.url),
-      shortcut: shortcutFor(`custom-slot-${slot.id}`),
+      shortcut: shortcutFor(slotCommand("custom", slot.id)),
       onClick: async () => {
         await send({
           type: "open-url",
@@ -107,7 +112,7 @@ function renderHome(state) {
       icon: String(index === 9 ? 0 : index + 1),
       title: item.title || (item.url ? hostOf(item.url) : "이름 없는 폴더"),
       subtitle: item.url ? hostOf(item.url) : "폴더",
-      shortcut: shortcutFor(`bookmark-slot-${index + 1}`),
+      shortcut: shortcutFor(slotCommand("bookmark", index + 1)),
       onClick: () => item.url ? openBookmark(item.id) : showFolder(item.id)
     }));
   }
@@ -121,6 +126,22 @@ folderBack.addEventListener("click", async () => {
     folderSection.hidden = true;
     homeView.hidden = false;
   }
+});
+
+folderList.addEventListener("keydown", (event) => {
+  if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+  const items = [...folderList.querySelectorAll(".item")];
+  if (!items.length) return;
+
+  event.preventDefault();
+  const currentIndex = items.indexOf(document.activeElement);
+  let nextIndex;
+  if (event.key === "Home") nextIndex = 0;
+  else if (event.key === "End") nextIndex = items.length - 1;
+  else if (event.key === "ArrowDown") nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
+  else nextIndex = currentIndex < 0 ? items.length - 1 : (currentIndex - 1 + items.length) % items.length;
+
+  items[nextIndex].focus({ preventScroll: true });
 });
 
 document.querySelector("#settings-button").addEventListener("click", () => send({ type: "open-options" }));

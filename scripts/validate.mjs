@@ -10,6 +10,12 @@ if (manifest.name !== "Hotmark") throw new Error("확장 프로그램 이름이 
 
 const commands = Object.keys(manifest.commands ?? {});
 if (commands.length !== 20) throw new Error(`명령은 20개여야 합니다. 현재: ${commands.length}`);
+const expectedCommands = ["custom", "bookmark"].flatMap((type) =>
+  Array.from({ length: 10 }, (_, index) => `${type}-slot-${String(index + 1).padStart(2, "0")}`)
+);
+if (JSON.stringify(commands) !== JSON.stringify(expectedCommands)) {
+  throw new Error("명령 이름 또는 순서가 01~10 규칙과 일치하지 않습니다.");
+}
 const suggested = Object.values(manifest.commands).filter((command) => command.suggested_key);
 if (suggested.length > 4) throw new Error("기본 단축키는 최대 4개만 제안할 수 있습니다.");
 

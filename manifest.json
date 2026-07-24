@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hotmark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "URL과 북마크를 키보드 단축키로 빠르게 여는 브라우저 확장 프로그램",
   "permissions": [
     "bookmarks",
@@ -27,37 +27,37 @@
   },
   "options_page": "options/options.html",
   "commands": {
-    "custom-slot-1": { "description": "사용자 URL 슬롯 1 열기" },
-    "custom-slot-2": { "description": "사용자 URL 슬롯 2 열기" },
-    "custom-slot-3": { "description": "사용자 URL 슬롯 3 열기" },
-    "custom-slot-4": { "description": "사용자 URL 슬롯 4 열기" },
-    "custom-slot-5": { "description": "사용자 URL 슬롯 5 열기" },
-    "custom-slot-6": { "description": "사용자 URL 슬롯 6 열기" },
-    "custom-slot-7": { "description": "사용자 URL 슬롯 7 열기" },
-    "custom-slot-8": { "description": "사용자 URL 슬롯 8 열기" },
-    "custom-slot-9": { "description": "사용자 URL 슬롯 9 열기" },
+    "custom-slot-01": { "description": "사용자 URL 슬롯 01 열기" },
+    "custom-slot-02": { "description": "사용자 URL 슬롯 02 열기" },
+    "custom-slot-03": { "description": "사용자 URL 슬롯 03 열기" },
+    "custom-slot-04": { "description": "사용자 URL 슬롯 04 열기" },
+    "custom-slot-05": { "description": "사용자 URL 슬롯 05 열기" },
+    "custom-slot-06": { "description": "사용자 URL 슬롯 06 열기" },
+    "custom-slot-07": { "description": "사용자 URL 슬롯 07 열기" },
+    "custom-slot-08": { "description": "사용자 URL 슬롯 08 열기" },
+    "custom-slot-09": { "description": "사용자 URL 슬롯 09 열기" },
     "custom-slot-10": { "description": "사용자 URL 슬롯 10 열기" },
-    "bookmark-slot-1": {
+    "bookmark-slot-01": {
       "suggested_key": { "default": "Ctrl+Shift+1" },
-      "description": "북마크 바 1번 항목 열기"
+      "description": "북마크 바 01번 항목 열기"
     },
-    "bookmark-slot-2": {
+    "bookmark-slot-02": {
       "suggested_key": { "default": "Ctrl+Shift+2" },
-      "description": "북마크 바 2번 항목 열기"
+      "description": "북마크 바 02번 항목 열기"
     },
-    "bookmark-slot-3": {
+    "bookmark-slot-03": {
       "suggested_key": { "default": "Ctrl+Shift+3" },
-      "description": "북마크 바 3번 항목 열기"
+      "description": "북마크 바 03번 항목 열기"
     },
-    "bookmark-slot-4": {
+    "bookmark-slot-04": {
       "suggested_key": { "default": "Ctrl+Shift+4" },
-      "description": "북마크 바 4번 항목 열기"
+      "description": "북마크 바 04번 항목 열기"
     },
-    "bookmark-slot-5": { "description": "북마크 바 5번 항목 열기" },
-    "bookmark-slot-6": { "description": "북마크 바 6번 항목 열기" },
-    "bookmark-slot-7": { "description": "북마크 바 7번 항목 열기" },
-    "bookmark-slot-8": { "description": "북마크 바 8번 항목 열기" },
-    "bookmark-slot-9": { "description": "북마크 바 9번 항목 열기" },
+    "bookmark-slot-05": { "description": "북마크 바 05번 항목 열기" },
+    "bookmark-slot-06": { "description": "북마크 바 06번 항목 열기" },
+    "bookmark-slot-07": { "description": "북마크 바 07번 항목 열기" },
+    "bookmark-slot-08": { "description": "북마크 바 08번 항목 열기" },
+    "bookmark-slot-09": { "description": "북마크 바 09번 항목 열기" },
     "bookmark-slot-10": { "description": "북마크 바 10번 항목 열기" }
   }
 }

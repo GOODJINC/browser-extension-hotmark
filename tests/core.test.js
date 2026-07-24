@@ -18,6 +18,7 @@ test("웹이 아닌 프로토콜은 거부한다", () => {
 
 test("명령 이름에서 종류와 슬롯을 추출한다", () => {
   assert.deepEqual(parseCommand("bookmark-slot-10"), { type: "bookmark", slot: 10 });
+  assert.deepEqual(parseCommand("bookmark-slot-01"), { type: "bookmark", slot: 1 });
   assert.equal(parseCommand("bookmark-slot-11"), null);
 });
 

@@ -15,6 +15,10 @@ function shortcutFor(command) {
   return commandMap.get(command) || "미지정";
 }
 
+function slotCommand(type, slot) {
+  return `${type}-slot-${String(slot).padStart(2, "0")}`;
+}
+
 function createSlotRow(slot) {
   const row = document.createElement("div");
   row.className = "slot-row";
@@ -28,7 +32,7 @@ function createSlotRow(slot) {
   row.querySelector(".slot-title").value = slot.title;
   row.querySelector(".slot-url").value = slot.url;
   row.querySelector(".slot-mode").value = slot.openMode;
-  row.querySelector("kbd").textContent = shortcutFor(`custom-slot-${slot.id}`);
+  row.querySelector("kbd").textContent = shortcutFor(slotCommand("custom", slot.id));
   return row;
 }
 
@@ -53,7 +57,7 @@ function renderPreview(bookmarkBar) {
     row.innerHTML = `<span class="slot-number"></span><span class="truncate"></span><kbd></kbd>`;
     row.querySelector(".slot-number").textContent = index === 9 ? "0" : index + 1;
     row.querySelector(".truncate").textContent = `${item.url ? "↗" : "▸"} ${item.title || "이름 없음"}`;
-    row.querySelector("kbd").textContent = shortcutFor(`bookmark-slot-${index + 1}`);
+    row.querySelector("kbd").textContent = shortcutFor(slotCommand("bookmark", index + 1));
     preview.append(row);
   });
 }

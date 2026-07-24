@@ -1,3 +1,5 @@
+import { modifierOpenMode, nextListIndex } from "../src/core.js";
+
 const homeView = document.querySelector("#home-view");
 const folderSection = document.querySelector("#folder-section");
 const folderTitle = document.querySelector("#folder-title");
@@ -26,10 +28,11 @@ function hostOf(url) {
   catch { return url; }
 }
 
-function createItem({ icon, title, subtitle, shortcut, onClick }) {
+function createItem({ icon, title, subtitle, shortcut, kind = "link", onClick }) {
   const button = document.createElement("button");
   button.className = "item";
   button.type = "button";
+  button.dataset.kind = kind;
   button.innerHTML = `
     <span class="slot"></span>
     <span class="item-copy"><span class="item-title"></span><span class="item-subtitle"></span></span>
@@ -49,9 +52,25 @@ function renderEmpty(container, text) {
   container.append(empty);
 }
 
-async function openBookmark(bookmarkId) {
-  await send({ type: "open-bookmark", bookmarkId });
+async function openBookmark(bookmarkId, mode = null) {
+  await send({ type: "open-bookmark", bookmarkId, mode });
   window.close();
+}
+
+function focusFirstItem(container) {
+  requestAnimationFrame(() => container.querySelector(".item")?.focus({ preventScroll: true }));
+}
+
+async function goBack() {
+  const previous = folderHistory.pop();
+  if (previous) {
+    await showFolder(previous, false);
+    return;
+  }
+  delete folderSection.dataset.folderId;
+  folderSection.hidden = true;
+  homeView.hidden = false;
+  focusFirstItem(homeView);
 }
 
 async function showFolder(folderId, pushHistory = true) {
@@ -75,10 +94,13 @@ async function showFolder(folderId, pushHistory = true) {
       icon: item.url ? "↗" : "▸",
       title: item.title || (item.url ? hostOf(item.url) : "이름 없는 폴더"),
       subtitle: item.url ? hostOf(item.url) : `${item.children?.length ?? 0}개 항목`,
-      onClick: () => item.url ? openBookmark(item.id) : showFolder(item.id)
+      kind: item.url ? "link" : "folder",
+      onClick: (event) => item.url
+        ? openBookmark(item.id, modifierOpenMode(event))
+        : showFolder(item.id)
     }));
   }
-  requestAnimationFrame(() => folderList.querySelector(".item")?.focus({ preventScroll: true }));
+  focusFirstItem(folderList);
 }
 
 function renderHome(state) {
@@ -93,11 +115,12 @@ function renderHome(state) {
       title: slot.title || hostOf(slot.url),
       subtitle: hostOf(slot.url),
       shortcut: shortcutFor(slotCommand("custom", slot.id)),
-      onClick: async () => {
+      onClick: async (event) => {
+        const requestedMode = modifierOpenMode(event);
         await send({
           type: "open-url",
           url: slot.url,
-          mode: slot.openMode === "inherit" ? state.settings.customOpenMode : slot.openMode
+          mode: requestedMode || (slot.openMode === "inherit" ? state.settings.customOpenMode : slot.openMode)
         });
         window.close();
       }
@@ -113,35 +136,53 @@ function renderHome(state) {
       title: item.title || (item.url ? hostOf(item.url) : "이름 없는 폴더"),
       subtitle: item.url ? hostOf(item.url) : "폴더",
       shortcut: shortcutFor(slotCommand("bookmark", index + 1)),
-      onClick: () => item.url ? openBookmark(item.id) : showFolder(item.id)
+      kind: item.url ? "link" : "folder",
+      onClick: (event) => item.url
+        ? openBookmark(item.id, modifierOpenMode(event))
+        : showFolder(item.id)
     }));
   }
   if (!bookmarks.length) renderEmpty(bookmarkList, "북마크 바가 비어 있습니다.");
+  focusFirstItem(homeView);
 }
 
-folderBack.addEventListener("click", async () => {
-  const previous = folderHistory.pop();
-  if (previous) await showFolder(previous, false);
-  else {
-    folderSection.hidden = true;
-    homeView.hidden = false;
-  }
-});
+folderBack.addEventListener("click", goBack);
 
-folderList.addEventListener("keydown", (event) => {
-  if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
-  const items = [...folderList.querySelectorAll(".item")];
-  if (!items.length) return;
-
-  event.preventDefault();
+document.addEventListener("keydown", async (event) => {
+  const inFolder = !folderSection.hidden;
+  const container = inFolder ? folderList : homeView;
+  const items = [...container.querySelectorAll(".item")];
   const currentIndex = items.indexOf(document.activeElement);
-  let nextIndex;
-  if (event.key === "Home") nextIndex = 0;
-  else if (event.key === "End") nextIndex = items.length - 1;
-  else if (event.key === "ArrowDown") nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
-  else nextIndex = currentIndex < 0 ? items.length - 1 : (currentIndex - 1 + items.length) % items.length;
 
-  items[nextIndex].focus({ preventScroll: true });
+  if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key) && items.length) {
+    event.preventDefault();
+    const nextIndex = nextListIndex(event.key, currentIndex, items.length);
+    items[nextIndex].focus({ preventScroll: true });
+    return;
+  }
+
+  if (event.key === "ArrowRight" && currentIndex >= 0 && items[currentIndex].dataset.kind === "folder") {
+    event.preventDefault();
+    items[currentIndex].click();
+    return;
+  }
+
+  if ((event.key === "ArrowLeft" || event.key === "Backspace") && inFolder) {
+    event.preventDefault();
+    await goBack();
+    return;
+  }
+
+  if (event.key === "Enter" && currentIndex >= 0) {
+    event.preventDefault();
+    items[currentIndex].dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      ctrlKey: event.ctrlKey,
+      metaKey: event.metaKey,
+      shiftKey: event.shiftKey
+    }));
+  }
 });
 
 document.querySelector("#settings-button").addEventListener("click", () => send({ type: "open-options" }));

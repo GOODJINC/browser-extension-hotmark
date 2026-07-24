@@ -7,14 +7,34 @@ import {
   resolveBookmarkBar
 } from "./core.js";
 
+const RUNTIME_OPEN_MODES = new Set(["current-tab", "new-tab", "background-tab", "new-window"]);
+const LAST_SAVED_AT_KEY = "lastSavedAt";
+
+async function getSettingsState() {
+  const stored = await chrome.storage.sync.get(null);
+  return {
+    settings: hydrateSettings(stored),
+    lastSavedAt: typeof stored[LAST_SAVED_AT_KEY] === "string" ? stored[LAST_SAVED_AT_KEY] : null
+  };
+}
+
 async function getSettings() {
-  return hydrateSettings(await chrome.storage.sync.get(null));
+  return (await getSettingsState()).settings;
 }
 
 async function saveSettings(value) {
   const settings = hydrateSettings(value);
-  await chrome.storage.sync.set(settings);
-  return settings;
+  const lastSavedAt = new Date().toISOString();
+  await chrome.storage.sync.set({ ...settings, [LAST_SAVED_AT_KEY]: lastSavedAt });
+  return { settings, lastSavedAt };
+}
+
+async function resetSettings() {
+  await chrome.storage.sync.clear();
+  const settings = hydrateSettings();
+  const lastSavedAt = new Date().toISOString();
+  await chrome.storage.sync.set({ ...settings, [LAST_SAVED_AT_KEY]: lastSavedAt });
+  return { settings, lastSavedAt };
 }
 
 async function getBookmarkBar() {
@@ -34,6 +54,10 @@ async function getFolder(folderId) {
 }
 
 async function openUrl(url, mode = "new-tab") {
+  if (mode === "new-window") {
+    await chrome.windows.create({ url });
+    return;
+  }
   if (mode === "current-tab") {
     await chrome.tabs.update({ url });
     return;
@@ -43,6 +67,10 @@ async function openUrl(url, mode = "new-tab") {
 
 async function openMany(urls, mode) {
   if (!urls.length) return;
+  if (mode === "new-window") {
+    await chrome.windows.create({ url: urls });
+    return;
+  }
   if (mode === "current-tab") {
     await chrome.tabs.update({ url: urls[0] });
     for (const url of urls.slice(1)) {
@@ -112,8 +140,8 @@ async function executeCommand(command) {
 async function handleMessage(message) {
   switch (message?.type) {
     case "get-state": {
-      const [settings, commands, bookmarkBar, pending] = await Promise.all([
-        getSettings(),
+      const [settingsState, commands, bookmarkBar, pending] = await Promise.all([
+        getSettingsState(),
         chrome.commands.getAll(),
         getBookmarkBar(),
         chrome.storage.session.get("pendingFolder")
@@ -122,24 +150,30 @@ async function handleMessage(message) {
         ? pending.pendingFolder
         : null;
       await chrome.storage.session.remove("pendingFolder");
-      return { settings, commands, bookmarkBar, pendingFolder };
+      return { ...settingsState, commands, bookmarkBar, pendingFolder };
     }
     case "get-options-state": {
-      const [settings, commands] = await Promise.all([getSettings(), chrome.commands.getAll()]);
-      return { settings, commands };
+      const [settingsState, commands] = await Promise.all([getSettingsState(), chrome.commands.getAll()]);
+      return { ...settingsState, commands };
     }
     case "save-settings":
-      return { settings: await saveSettings(message.settings) };
+      return await saveSettings(message.settings);
+    case "reset-settings":
+      return await resetSettings();
     case "get-folder":
       return { folder: await getFolder(String(message.folderId)) };
     case "open-url":
-      await openUrl(normalizeUserUrl(String(message.url)), message.mode);
+      await openUrl(
+        normalizeUserUrl(String(message.url)),
+        RUNTIME_OPEN_MODES.has(message.mode) ? message.mode : "new-tab"
+      );
       return { ok: true };
     case "open-bookmark": {
       const [item] = await chrome.bookmarks.get(String(message.bookmarkId));
       if (!item) throw new Error("북마크를 찾을 수 없습니다.");
       const settings = await getSettings();
-      if (item.url) await openUrl(item.url, settings.bookmarkOpenMode);
+      const mode = RUNTIME_OPEN_MODES.has(message.mode) ? message.mode : settings.bookmarkOpenMode;
+      if (item.url) await openUrl(item.url, mode);
       else await executeFolder(await getFolder(item.id), settings);
       return { ok: true };
     }

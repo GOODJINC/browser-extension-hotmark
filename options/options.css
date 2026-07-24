@@ -40,15 +40,28 @@ kbd { justify-self: start; padding: 5px 8px; border: 1px solid var(--line); bord
 .preview-row:first-of-type { border-top: 0; }
 .truncate { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .muted { color: var(--muted); font-size: 12px; }
-.savebar { position: sticky; bottom: 16px; display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 20px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: 0 10px 34px #11142518; backdrop-filter: blur(14px); }
-#status { margin-right: auto; color: var(--muted); }
+.data-card { padding-bottom: 20px; }
+.data-row, .data-action { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.data-row p, .data-action p { margin: 4px 0 0; color: var(--muted); }
+.sync-state { display: flex; align-items: center; gap: 10px; min-width: 260px; padding: 11px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--bg); }
+.sync-state > div { display: grid; gap: 2px; }
+.sync-dot { width: 9px; height: 9px; border-radius: 50%; background: #8b90a0; box-shadow: 0 0 0 4px color-mix(in srgb, #8b90a0 15%, transparent); }
+.sync-state[data-state="saving"] .sync-dot { background: #e6a23c; box-shadow: 0 0 0 4px color-mix(in srgb, #e6a23c 18%, transparent); }
+.sync-state[data-state="saved"] .sync-dot { background: #2fa66a; box-shadow: 0 0 0 4px color-mix(in srgb, #2fa66a 18%, transparent); }
+.sync-state[data-state="error"] .sync-dot { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+#status { font-weight: 700; }
+#last-saved { color: var(--muted); font-size: 12px; }
+.data-action { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
 button { padding: 9px 14px; border-radius: 9px; cursor: pointer; font-weight: 700; }
 .primary { border: 0; background: var(--accent); color: #fff; }
 .primary:hover { background: var(--accent-hover); }
 .secondary { flex: 0 0 auto; border: 1px solid var(--line); background: var(--surface); }
+.danger { flex: 0 0 auto; border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); background: var(--surface); color: var(--accent); }
+.danger:hover { background: var(--soft); }
 @media (max-width: 780px) {
   .page { width: min(100% - 24px, 680px); margin-top: 24px; }
-  .callout, .card-heading { align-items: stretch; flex-direction: column; }
+  .callout, .card-heading, .data-row, .data-action { align-items: stretch; flex-direction: column; }
+  .sync-state { min-width: 0; }
   .slot-header { display: none; }
   .slot-row { grid-template-columns: 42px 1fr; }
   .slot-row select, .slot-row kbd { grid-column: 2; }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hotmark",
-  "version": "0.1.1",
+  "version": "0.4.0",
   "description": "URL과 북마크를 키보드 단축키로 빠르게 여는 브라우저 확장 프로그램",
   "permissions": [
     "bookmarks",

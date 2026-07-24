@@ -4,9 +4,11 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const manifest = JSON.parse(await readFile(resolve(root, "manifest.json"), "utf8"));
+const packageJson = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
 
 if (manifest.manifest_version !== 3) throw new Error("Manifest V3가 아닙니다.");
 if (manifest.name !== "Hotmark") throw new Error("확장 프로그램 이름이 올바르지 않습니다.");
+if (manifest.version !== packageJson.version) throw new Error("manifest와 package 버전이 일치하지 않습니다.");
 
 const commands = Object.keys(manifest.commands ?? {});
 if (commands.length !== 20) throw new Error(`명령은 20개여야 합니다. 현재: ${commands.length}`);
@@ -17,7 +19,14 @@ if (JSON.stringify(commands) !== JSON.stringify(expectedCommands)) {
   throw new Error("명령 이름 또는 순서가 01~10 규칙과 일치하지 않습니다.");
 }
 const suggested = Object.values(manifest.commands).filter((command) => command.suggested_key);
-if (suggested.length > 4) throw new Error("기본 단축키는 최대 4개만 제안할 수 있습니다.");
+if (suggested.length !== 4) throw new Error("기본 단축키는 북마크 슬롯 01~04의 4개여야 합니다.");
+for (let slot = 1; slot <= 4; slot += 1) {
+  const name = `bookmark-slot-${String(slot).padStart(2, "0")}`;
+  const shortcut = manifest.commands[name]?.suggested_key?.default;
+  if (shortcut !== `Ctrl+Shift+${slot}`) {
+    throw new Error(`${name}의 기본 단축키가 올바르지 않습니다.`);
+  }
+}
 
 const referencedFiles = [
   manifest.background.service_worker,

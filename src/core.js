@@ -103,3 +103,22 @@ export function collectDescendantUrls(node, recursive = true) {
 export function effectiveOpenMode(slotMode, fallbackMode) {
   return slotMode === "inherit" ? fallbackMode : slotMode;
 }
+
+export function modifierOpenMode({ ctrlKey = false, metaKey = false, shiftKey = false } = {}) {
+  const primaryModifier = ctrlKey || metaKey;
+  if (primaryModifier && shiftKey) return "new-tab";
+  if (primaryModifier) return "background-tab";
+  if (shiftKey) return "new-window";
+  return null;
+}
+
+export function nextListIndex(key, currentIndex, itemCount) {
+  if (itemCount <= 0) return -1;
+  if (key === "Home") return 0;
+  if (key === "End") return itemCount - 1;
+  if (key === "ArrowDown") return currentIndex < 0 ? 0 : (currentIndex + 1) % itemCount;
+  if (key === "ArrowUp") return currentIndex < 0
+    ? itemCount - 1
+    : (currentIndex - 1 + itemCount) % itemCount;
+  return currentIndex;
+}

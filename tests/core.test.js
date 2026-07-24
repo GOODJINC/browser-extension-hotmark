@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import {
   collectDescendantUrls,
   hydrateSettings,
+  modifierOpenMode,
+  nextListIndex,
   normalizeUserUrl,
   parseCommand,
   resolveBookmarkBar
@@ -10,6 +12,20 @@ import {
 
 test("URL에 프로토콜이 없으면 https를 붙인다", () => {
   assert.equal(normalizeUserUrl("todoist.com/app"), "https://todoist.com/app");
+});
+
+test("수정키 조합에 따라 링크 열기 방식을 결정한다", () => {
+  assert.equal(modifierOpenMode({ shiftKey: true }), "new-window");
+  assert.equal(modifierOpenMode({ ctrlKey: true }), "background-tab");
+  assert.equal(modifierOpenMode({ ctrlKey: true, shiftKey: true }), "new-tab");
+  assert.equal(modifierOpenMode({}), null);
+});
+
+test("목록 키보드 이동은 처음과 끝에서 순환한다", () => {
+  assert.equal(nextListIndex("ArrowDown", 2, 3), 0);
+  assert.equal(nextListIndex("ArrowUp", 0, 3), 2);
+  assert.equal(nextListIndex("Home", 2, 3), 0);
+  assert.equal(nextListIndex("End", 0, 3), 2);
 });
 
 test("웹이 아닌 프로토콜은 거부한다", () => {

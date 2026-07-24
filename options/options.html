@@ -1,63 +1,63 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hotmark 설정</title>
+    <title data-i18n="optionsTitle">Hotmark Settings</title>
     <link rel="stylesheet" href="options.css">
   </head>
   <body>
     <main class="page">
       <header class="hero">
-        <img src="../assets/icon.svg" alt="" width="58" height="58">
-        <div><p class="eyebrow">URL & BOOKMARK SHORTCUTS</p><h1>Hotmark 설정</h1><p>원하는 페이지와 북마크 바를 키보드로 바로 여세요.</p></div>
+        <img src="../assets/icon-ui.png" alt="" width="58" height="58">
+        <div><p class="eyebrow" data-i18n="heroEyebrow">URL &amp; BOOKMARK SHORTCUTS</p><h1 data-i18n="optionsHeading">Hotmark Settings</h1><p data-i18n="optionsSubtitle">Open your favorite pages and bookmark bar items directly from the keyboard.</p></div>
       </header>
 
       <aside class="callout">
         <div>
-          <strong>단축키는 브라우저에서 지정합니다.</strong>
-          <p>Chromium 정책상 기본 단축키는 확장 프로그램당 최대 4개만 제공할 수 있어 북마크 슬롯 1~4에만 등록되어 있습니다. 나머지 사용자 URL·북마크 슬롯은 단축키 설정에서 직접 지정해 주세요. Ctrl+Alt 조합은 AltGr 충돌 때문에 사용할 수 없습니다.</p>
+          <strong data-i18n="shortcutCalloutTitle">Assign shortcuts in your browser.</strong>
+          <p data-i18n="shortcutCalloutDescription">Chromium allows only four default shortcuts per extension, so bookmark slots 1–4 are preassigned. Assign the remaining custom URL and bookmark slots on the shortcut settings page. Ctrl+Alt combinations are unavailable because they can conflict with AltGr.</p>
         </div>
-        <button id="open-shortcuts" class="secondary" type="button">단축키 설정 열기</button>
+        <button id="open-shortcuts" class="secondary" type="button" data-i18n="openShortcutSettings">Open shortcut settings</button>
       </aside>
 
       <form id="settings-form">
         <section class="card">
-          <div class="card-heading"><div><h2>내 바로가기</h2><p>북마크와 무관하게 최대 10개의 URL을 등록합니다.</p></div>
-            <label class="compact">기본 열기 방식<select id="custom-open-mode"><option value="new-tab">새 탭</option><option value="current-tab">현재 탭</option><option value="background-tab">백그라운드 탭</option></select></label>
+          <div class="card-heading"><div><h2 data-i18n="myShortcuts">My shortcuts</h2><p data-i18n="customShortcutsDescription">Register up to 10 URLs independently of your bookmarks.</p></div>
+            <label class="compact"><span data-i18n="defaultOpenMode">Default opening behavior</span><select id="custom-open-mode"><option value="new-tab" data-i18n="modeNewTab">New tab</option><option value="current-tab" data-i18n="modeCurrentTab">Current tab</option><option value="background-tab" data-i18n="modeBackgroundTab">Background tab</option></select></label>
           </div>
-          <div class="slot-header"><span>슬롯</span><span>이름과 URL</span><span>열기 방식</span><span>단축키</span></div>
+          <div class="slot-header"><span data-i18n="slot">Slot</span><span data-i18n="nameAndUrl">Name and URL</span><span data-i18n="openMode">Opening behavior</span><span data-i18n="shortcut">Shortcut</span></div>
           <div id="custom-slots"></div>
         </section>
 
         <section class="card">
-          <div class="card-heading"><div><h2>북마크 바</h2><p>브라우저 북마크 바의 실제 순서에서 앞쪽 10개 항목을 사용합니다.</p></div></div>
+          <div class="card-heading"><div><h2 data-i18n="bookmarkBar">Bookmark bar</h2><p data-i18n="bookmarkBarDescription">Use the first 10 items in the bookmark bar's current order.</p></div></div>
           <div class="settings-grid">
-            <label>페이지 열기 방식<select id="bookmark-open-mode"><option value="new-tab">새 탭</option><option value="current-tab">현재 탭</option><option value="background-tab">백그라운드 탭</option></select></label>
-            <label>폴더 실행 방식<select id="folder-action"><option value="menu">내용 메뉴 표시 (권장)</option><option value="direct-children">바로 아래 페이지만 모두 열기</option><option value="recursive">하위 폴더까지 모두 열기</option><option value="ignore">폴더 무시</option></select></label>
-            <label>한 번에 열 최대 탭 수<input id="max-folder-tabs" type="number" min="1" max="50" inputmode="numeric"></label>
+            <label><span data-i18n="pageOpenMode">Page opening behavior</span><select id="bookmark-open-mode"><option value="new-tab" data-i18n="modeNewTab">New tab</option><option value="current-tab" data-i18n="modeCurrentTab">Current tab</option><option value="background-tab" data-i18n="modeBackgroundTab">Background tab</option></select></label>
+            <label><span data-i18n="folderAction">Folder action</span><select id="folder-action"><option value="menu" data-i18n="folderMenuRecommended">Show contents menu (recommended)</option><option value="direct-children" data-i18n="folderDirectChildren">Open direct pages only</option><option value="recursive" data-i18n="folderRecursive">Open pages in nested folders</option><option value="ignore" data-i18n="folderIgnore">Ignore folders</option></select></label>
+            <label><span data-i18n="maxFolderTabs">Maximum tabs to open at once</span><input id="max-folder-tabs" type="number" min="1" max="50" inputmode="numeric"></label>
           </div>
-          <p class="settings-note">폴더의 페이지 수가 설정값을 초과하면 여러 탭을 여는 대신 안전하게 폴더 메뉴를 표시합니다.</p>
+          <p class="settings-note" data-i18n="maxFolderTabsNote">If a folder exceeds this limit, Hotmark safely displays its menu instead of opening multiple tabs.</p>
           <div id="bookmark-preview" class="preview"></div>
         </section>
 
         <section class="card data-card" aria-labelledby="data-heading">
           <div class="data-row">
             <div>
-              <h2 id="data-heading">동기화 및 데이터</h2>
-              <p>변경 사항을 브라우저 동기화 저장소에 자동으로 저장합니다.</p>
+              <h2 id="data-heading" data-i18n="syncAndData">Sync and data</h2>
+              <p data-i18n="syncDescription">Changes are saved automatically to browser-managed sync storage.</p>
             </div>
             <div id="sync-state" class="sync-state" data-state="idle">
               <span class="sync-dot" aria-hidden="true"></span>
               <div>
-                <span id="status" role="status" aria-live="polite">저장 상태 확인 중…</span>
-                <time id="last-saved">저장 기록 없음</time>
+                <span id="status" role="status" aria-live="polite" data-i18n="checkingSaveStatus">Checking save status…</span>
+                <time id="last-saved" data-i18n="noSaveRecord">No saved changes yet</time>
               </div>
             </div>
           </div>
           <div class="data-action">
-            <div><strong>초기 설정으로 되돌리기</strong><p>등록한 URL과 열기 동작을 초기화합니다. 브라우저 단축키는 유지됩니다.</p></div>
-            <button id="reset-settings" class="danger" type="button">초기 설정으로 되돌리기</button>
+            <div><strong data-i18n="resetSettings">Restore default settings</strong><p data-i18n="resetDescription">Reset custom URLs and opening behavior. Browser shortcuts are preserved.</p></div>
+            <button id="reset-settings" class="danger" type="button" data-i18n="resetSettings">Restore default settings</button>
           </div>
         </section>
       </form>

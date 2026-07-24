@@ -47,10 +47,10 @@ export function hydrateSettings(raw = {}) {
   return { customOpenMode, bookmarkOpenMode, folderAction, maxFolderTabs, customSlots };
 }
 
-export function normalizeUserUrl(value) {
+export function normalizeUserUrl(value, translate = (_key, fallback) => fallback) {
   const trimmed = String(value ?? "").trim();
   if (!trimmed) {
-    throw new Error("URL을 입력해 주세요.");
+    throw new Error(translate("errorUrlRequired", "Enter a URL."));
   }
 
   const candidate = /^[a-z][a-z\d+.-]*:/i.test(trimmed) ? trimmed : `https://${trimmed}`;
@@ -58,11 +58,11 @@ export function normalizeUserUrl(value) {
   try {
     parsed = new URL(candidate);
   } catch {
-    throw new Error("올바른 URL 형식이 아닙니다.");
+    throw new Error(translate("errorInvalidUrl", "Enter a valid URL."));
   }
 
   if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-    throw new Error("http 또는 https 주소만 등록할 수 있습니다.");
+    throw new Error(translate("errorHttpOnly", "Only http or https URLs can be registered."));
   }
   return parsed.href;
 }

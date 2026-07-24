@@ -1,4 +1,7 @@
 import { modifierOpenMode, nextListIndex } from "../src/core.js";
+import { localizeDocument, t } from "../src/i18n.js";
+
+localizeDocument();
 
 const homeView = document.querySelector("#home-view");
 const folderSection = document.querySelector("#folder-section");
@@ -11,12 +14,12 @@ let commandMap = new Map();
 
 async function send(message) {
   const response = await chrome.runtime.sendMessage(message);
-  if (!response?.ok) throw new Error(response?.error || "요청을 처리하지 못했습니다.");
+  if (!response?.ok) throw new Error(response?.error || t("requestFailed"));
   return response;
 }
 
 function shortcutFor(commandName) {
-  return commandMap.get(commandName) || "미지정";
+  return commandMap.get(commandName) || t("unassigned");
 }
 
 function slotCommand(type, slot) {
@@ -79,21 +82,21 @@ async function showFolder(folderId, pushHistory = true) {
     folderHistory.push(folderSection.dataset.folderId);
   }
   folderSection.dataset.folderId = folder.id;
-  folderTitle.textContent = folder.title || "북마크 폴더";
+  folderTitle.textContent = folder.title || t("bookmarkFolder");
   folderBack.hidden = folderHistory.length === 0;
   folderList.replaceChildren();
   homeView.hidden = true;
   folderSection.hidden = false;
 
   if (!folder.children?.length) {
-    renderEmpty(folderList, "빈 폴더입니다.");
+    renderEmpty(folderList, t("emptyFolder"));
     return;
   }
   for (const item of folder.children) {
     folderList.append(createItem({
       icon: item.url ? "↗" : "▸",
-      title: item.title || (item.url ? hostOf(item.url) : "이름 없는 폴더"),
-      subtitle: item.url ? hostOf(item.url) : `${item.children?.length ?? 0}개 항목`,
+      title: item.title || (item.url ? hostOf(item.url) : t("unnamedFolder")),
+      subtitle: item.url ? hostOf(item.url) : t("itemCount", String(item.children?.length ?? 0)),
       kind: item.url ? "link" : "folder",
       onClick: (event) => item.url
         ? openBookmark(item.id, modifierOpenMode(event))
@@ -126,15 +129,15 @@ function renderHome(state) {
       }
     }));
   }
-  if (!enabledSlots.length) renderEmpty(customList, "설정에서 바로가기를 추가해 보세요.");
+  if (!enabledSlots.length) renderEmpty(customList, t("addShortcutPrompt"));
 
   const bookmarks = state.bookmarkBar.children?.slice(0, 10) ?? [];
   for (let index = 0; index < bookmarks.length; index += 1) {
     const item = bookmarks[index];
     bookmarkList.append(createItem({
       icon: String(index === 9 ? 0 : index + 1),
-      title: item.title || (item.url ? hostOf(item.url) : "이름 없는 폴더"),
-      subtitle: item.url ? hostOf(item.url) : "폴더",
+      title: item.title || (item.url ? hostOf(item.url) : t("unnamedFolder")),
+      subtitle: item.url ? hostOf(item.url) : t("folder"),
       shortcut: shortcutFor(slotCommand("bookmark", index + 1)),
       kind: item.url ? "link" : "folder",
       onClick: (event) => item.url
@@ -142,7 +145,7 @@ function renderHome(state) {
         : showFolder(item.id)
     }));
   }
-  if (!bookmarks.length) renderEmpty(bookmarkList, "북마크 바가 비어 있습니다.");
+  if (!bookmarks.length) renderEmpty(bookmarkList, t("bookmarkBarEmpty"));
   focusFirstItem(homeView);
 }
 

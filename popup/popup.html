@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,10 +9,10 @@
   <body>
     <header class="topbar">
       <div class="brand">
-        <img src="../assets/icon.svg" alt="" width="30" height="30">
-        <div><strong>Hotmark</strong><span>빠른 페이지 실행</span></div>
+        <img src="../assets/icon-ui.png" alt="" width="30" height="30">
+        <div><strong>Hotmark</strong><span data-i18n="popupTagline">Quick page launcher</span></div>
       </div>
-      <button id="settings-button" class="icon-button" type="button" title="설정">⚙</button>
+      <button id="settings-button" class="icon-button" type="button" title="Settings" data-i18n-title="settings">⚙</button>
     </header>
 
     <main>
@@ -21,27 +21,27 @@
       <section id="folder-section" hidden>
         <div class="section-heading folder-heading">
           <button id="folder-back" class="back-button" type="button" hidden>←</button>
-          <div><span class="eyebrow">폴더</span><h1 id="folder-title"></h1></div>
+          <div><span class="eyebrow" data-i18n="folderLabel">Folder</span><h1 id="folder-title"></h1></div>
         </div>
         <div id="folder-list" class="item-list"></div>
       </section>
 
       <div id="home-view">
         <section>
-          <div class="section-heading"><h1>내 바로가기</h1><span id="custom-count" class="count"></span></div>
+          <div class="section-heading"><h1 data-i18n="myShortcuts">My shortcuts</h1><span id="custom-count" class="count"></span></div>
           <div id="custom-list" class="item-list"></div>
         </section>
 
         <section>
-          <div class="section-heading"><h1>북마크 바</h1><span class="hint">앞쪽 10개</span></div>
+          <div class="section-heading"><h1 data-i18n="bookmarkBar">Bookmark bar</h1><span class="hint" data-i18n="firstTen">First 10</span></div>
           <div id="bookmark-list" class="item-list"></div>
         </section>
       </div>
     </main>
 
     <footer>
-      <p class="key-help"><kbd>Shift</kbd> 새 창 · <kbd>Ctrl+Shift</kbd> 새 탭 · <kbd>Ctrl</kbd> 백그라운드</p>
-      <button id="shortcuts-button" class="text-button" type="button">키보드 단축키 설정</button>
+      <p class="key-help"><kbd>Shift</kbd> <span data-i18n="openNewWindow">new window</span> · <kbd>Ctrl+Shift</kbd> <span data-i18n="openNewTab">new tab</span> · <kbd>Ctrl</kbd> <span data-i18n="openBackgroundTab">background tab</span></p>
+      <button id="shortcuts-button" class="text-button" type="button" data-i18n="keyboardShortcutSettings">Keyboard shortcut settings</button>
     </footer>
     <script type="module" src="popup.js"></script>
   </body>

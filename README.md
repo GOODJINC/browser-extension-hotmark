@@ -1,97 +1,103 @@
 # Hotmark
 
-자주 사용하는 웹페이지와 북마크를 키보드로 빠르게 여는 Chromium 브라우저 확장 프로그램입니다.
+**English** | [한국어](README.ko.md)
 
-Brave, Chrome, Vivaldi, Edge 등 Chromium 기반 데스크톱 브라우저에서 사용할 수 있습니다.
+[Privacy Policy](PRIVACY.md) · [Changelog](CHANGELOG.md)
 
-## 주요 기능
+Hotmark is a Chromium browser extension that opens frequently used web pages and bookmarks with keyboard shortcuts.
 
-- 원하는 웹페이지를 최대 10개의 URL 슬롯에 등록
-- 북마크 바의 앞쪽 10개 항목을 표시 순서대로 실행
-- 현재 탭, 새 탭, 백그라운드 탭 중 열기 방식 선택
-- 북마크 폴더를 메뉴로 탐색하거나 여러 페이지를 한 번에 열기
-- 설정 자동 저장과 브라우저 동기화 저장소 지원
+It supports Chromium-based desktop browsers such as Brave, Chrome, Vivaldi, and Edge.
 
-북마크 폴더와 확장 팝업은 방향키, `Home`, `End`, `Enter`, `Backspace`로 탐색할 수 있습니다. 링크를 실행할 때 수정키를 함께 누르면 열기 방식을 일시적으로 바꿀 수 있습니다.
+## Features
 
-| 조작 | 동작 |
+- Register up to 10 custom URL shortcuts
+- Open the first 10 bookmark bar items in their displayed order
+- Choose between the current tab, a new tab, or a background tab
+- Browse bookmark folders as a menu or open multiple pages at once
+- Automatically save settings to browser-managed sync storage
+
+Navigate the popup and bookmark folders with the arrow keys, `Home`, `End`, `Enter`, and `Backspace`. Hold a modifier key while opening a link to temporarily change how it opens.
+
+| Input | Action |
 | --- | --- |
-| `Shift` + 실행 | 새 창에서 열기 |
-| `Ctrl` + 실행 | 백그라운드 탭에서 열기 |
-| `Ctrl+Shift` + 실행 | 새 탭에서 열기 |
+| `Shift` + open | Open in a new window |
+| `Ctrl` + open | Open in a background tab |
+| `Ctrl+Shift` + open | Open in a new tab |
 
-## 설치
+## Installation
 
-현재는 압축 해제 방식으로 설치합니다.
+Hotmark is currently installed as an unpacked extension.
 
-1. 이 저장소를 내려받거나 복제합니다.
-2. 브라우저의 확장 프로그램 관리 페이지를 엽니다.
+1. Download or clone this repository.
+2. Open your browser's extensions page.
    - Brave: `brave://extensions`
    - Chrome: `chrome://extensions`
    - Vivaldi: `vivaldi://extensions`
    - Edge: `edge://extensions`
-3. **개발자 모드**를 켭니다.
-4. **압축해제된 확장 프로그램을 로드합니다**를 선택합니다.
-5. 이 저장소의 최상위 폴더를 선택합니다.
+3. Enable **Developer mode**.
+4. Select **Load unpacked**.
+5. Choose the root folder of this repository.
 
-## 사용 방법
+## Getting started
 
-1. Hotmark 아이콘을 누르고 **설정**을 엽니다.
-2. **내 바로가기**에 이름과 URL을 등록합니다.
-3. **단축키 설정 열기**를 눌러 원하는 키 조합을 지정합니다.
-4. 북마크 바로가기는 브라우저 북마크 바의 현재 순서에 따라 실행됩니다.
+1. Select the Hotmark icon and open **Settings**.
+2. Add a name and URL under **My shortcuts**.
+3. Select **Open keyboard shortcut settings** and assign your preferred keys.
+4. Bookmark shortcuts follow the current order of your browser's bookmark bar.
 
-설정 변경 사항은 잠시 후 자동으로 저장됩니다. 설정 페이지 하단에서 마지막 저장 시각을 확인하거나 Hotmark 설정을 초기값으로 되돌릴 수 있습니다.
+Changes are saved automatically. The bottom of the settings page shows the last saved time and provides an option to restore Hotmark's default settings.
 
-## 단축키 안내
+## Keyboard shortcuts
 
-Chromium 정책상 확장 프로그램이 기본으로 제안할 수 있는 단축키는 최대 4개입니다. Hotmark는 다음 네 개를 기본값으로 제공합니다.
+Chromium allows an extension to suggest no more than four default shortcuts. Hotmark provides these defaults:
 
-| 단축키 | 동작 |
+| Shortcut | Action |
 | --- | --- |
-| `Ctrl+Shift+1` | 북마크 바 1번 항목 열기 |
-| `Ctrl+Shift+2` | 북마크 바 2번 항목 열기 |
-| `Ctrl+Shift+3` | 북마크 바 3번 항목 열기 |
-| `Ctrl+Shift+4` | 북마크 바 4번 항목 열기 |
+| `Ctrl+Shift+1` | Open bookmark bar item 1 |
+| `Ctrl+Shift+2` | Open bookmark bar item 2 |
+| `Ctrl+Shift+3` | Open bookmark bar item 3 |
+| `Ctrl+Shift+4` | Open bookmark bar item 4 |
 
-사용자 URL 슬롯과 나머지 북마크 슬롯의 단축키는 브라우저의 확장 프로그램 단축키 페이지에서 직접 지정해 주세요. `Ctrl+Alt` 조합은 AltGr 키와 충돌할 수 있어 Chromium에서 허용되지 않습니다.
+Assign shortcuts for custom URL slots and the remaining bookmark slots on the browser's extension shortcut page. Chromium does not allow `Ctrl+Alt` combinations because they can conflict with AltGr.
 
-## 북마크 폴더
+## Bookmark folders
 
-폴더를 실행하는 방식은 설정에서 선택할 수 있습니다.
+Choose one of the following folder actions in Settings:
 
-- 내용을 메뉴로 표시
-- 바로 아래에 있는 페이지만 열기
-- 하위 폴더의 페이지까지 모두 열기
-- 폴더 무시
+- Show the folder contents as a menu
+- Open only pages directly inside the folder
+- Open pages in the folder and all nested folders
+- Ignore folders
 
-한꺼번에 열 수 있는 최대 탭 수를 지정할 수 있습니다. 페이지 수가 제한을 넘으면 여러 탭을 여는 대신 폴더 메뉴를 표시합니다.
+You can set a maximum number of tabs to open at once. If a folder exceeds the limit, Hotmark displays the folder menu instead of opening all tabs.
 
-## 동기화와 초기화
+## Sync and reset
 
-Hotmark 설정은 `chrome.storage.sync`에 저장됩니다. 브라우저 동기화가 활성화되어 있고 Hotmark가 같은 확장 ID로 설치된 환경에서는 설정이 다른 PC에도 동기화될 수 있습니다.
+Hotmark stores its settings in `chrome.storage.sync`. Settings can synchronize between compatible signed-in browser profiles when browser sync is enabled and Hotmark has the same extension ID.
 
-압축 해제 설치본은 PC마다 확장 ID가 달라질 수 있으므로 동기화되지 않을 수 있습니다. 브라우저의 확장 프로그램 단축키 페이지에서 지정한 키 조합도 Hotmark 설정과 별도로 관리됩니다.
+Unpacked installations can receive different extension IDs on different computers, so they may not synchronize. Keyboard assignments made on the browser's extension shortcut page are managed separately from Hotmark settings.
 
-초기화하면 등록한 URL과 Hotmark의 열기 설정이 기본값으로 돌아가며, 동기화된 다른 PC에도 반영될 수 있습니다. 브라우저에서 지정한 단축키는 초기화하지 않습니다.
+Resetting restores custom URLs and Hotmark behavior to their defaults and may propagate to synchronized devices. It does not reset browser-managed keyboard assignments.
 
-## 개인정보 보호와 권한
+## Privacy and permissions
 
-Hotmark는 광고, 분석 도구, 원격 코드가 없으며 웹페이지 내용을 읽는 호스트 권한을 요청하지 않습니다.
+Hotmark contains no advertising, analytics, tracking, or remotely hosted executable code. It does not request host permissions to read website contents.
 
-| 권한 | 사용 목적 |
+| Permission | Purpose |
 | --- | --- |
-| `bookmarks` | 북마크 바의 순서와 폴더 내용 확인 |
-| `storage` | URL 슬롯과 동작 설정 저장 |
+| `bookmarks` | Read bookmark bar order and folder contents |
+| `storage` | Save URL slots and behavior settings |
 
-Hotmark는 북마크를 생성하거나 수정하거나 삭제하지 않습니다.
+Hotmark does not create, edit, or delete bookmarks. See the [Privacy Policy](PRIVACY.md) for details.
 
-## 개발
+## Development
 
-Node.js 외의 외부 의존성은 없습니다.
+Hotmark has no runtime dependencies outside the browser APIs. Node.js is used only for validation and tests.
+
+The original icon artwork is stored in `design/icon-master.png`. Browser and store icon sizes are generated under `assets/`.
 
 ```powershell
 npm run check
 ```
 
-위 명령은 manifest 검증과 자동 테스트를 함께 실행합니다. 자세한 버전별 변경 사항은 [CHANGELOG.md](CHANGELOG.md)에서 확인할 수 있습니다.
+This command validates the manifest and runs all automated tests. See [CHANGELOG.md](CHANGELOG.md) for version history.

@@ -6,6 +6,7 @@ import {
   parseCommand,
   resolveBookmarkBar
 } from "./core.js";
+import { t } from "./i18n.js";
 
 const RUNTIME_OPEN_MODES = new Set(["current-tab", "new-tab", "background-tab", "new-window"]);
 const LAST_SAVED_AT_KEY = "lastSavedAt";
@@ -40,7 +41,7 @@ async function resetSettings() {
 async function getBookmarkBar() {
   const tree = await chrome.bookmarks.getTree();
   const bar = resolveBookmarkBar(tree);
-  if (!bar) throw new Error("북마크 바를 찾을 수 없습니다.");
+  if (!bar) throw new Error(t("errorBookmarkBarNotFound"));
   if (!bar.children) {
     bar.children = await chrome.bookmarks.getChildren(bar.id);
   }
@@ -49,7 +50,7 @@ async function getBookmarkBar() {
 
 async function getFolder(folderId) {
   const [folder] = await chrome.bookmarks.getSubTree(folderId);
-  if (!folder || folder.url) throw new Error("북마크 폴더를 찾을 수 없습니다.");
+  if (!folder || folder.url) throw new Error(t("errorBookmarkFolderNotFound"));
   return folder;
 }
 
@@ -121,7 +122,7 @@ async function executeCommand(command) {
   if (parsed.type === "custom") {
     const slot = settings.customSlots[parsed.slot - 1];
     if (!slot?.url) return;
-    const url = normalizeUserUrl(slot.url);
+    const url = normalizeUserUrl(slot.url, t);
     await openUrl(url, effectiveOpenMode(slot.openMode, settings.customOpenMode));
     return;
   }
@@ -164,13 +165,13 @@ async function handleMessage(message) {
       return { folder: await getFolder(String(message.folderId)) };
     case "open-url":
       await openUrl(
-        normalizeUserUrl(String(message.url)),
+        normalizeUserUrl(String(message.url), t),
         RUNTIME_OPEN_MODES.has(message.mode) ? message.mode : "new-tab"
       );
       return { ok: true };
     case "open-bookmark": {
       const [item] = await chrome.bookmarks.get(String(message.bookmarkId));
-      if (!item) throw new Error("북마크를 찾을 수 없습니다.");
+      if (!item) throw new Error(t("errorBookmarkNotFound"));
       const settings = await getSettings();
       const mode = RUNTIME_OPEN_MODES.has(message.mode) ? message.mode : settings.bookmarkOpenMode;
       if (item.url) await openUrl(item.url, mode);
@@ -184,7 +185,7 @@ async function handleMessage(message) {
       await chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
       return { ok: true };
     default:
-      throw new Error("지원하지 않는 요청입니다.");
+      throw new Error(t("errorUnsupportedRequest"));
   }
 }
 

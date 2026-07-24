@@ -8,6 +8,10 @@ Hotmark는 자주 사용하는 웹페이지와 북마크를 키보드 단축키�
 
 Brave, Chrome, Vivaldi, Edge 등 Chromium 기반 데스크톱 브라우저에서 사용할 수 있습니다.
 
+<p align="center">
+  <img src="docs/images/hotmark-overview.webp" alt="사용자 URL과 북마크 바로가기를 보여 주는 Hotmark 팝업" width="960">
+</p>
+
 ## 주요 기능
 
 - 원하는 웹페이지를 최대 10개의 URL 슬롯에 등록
@@ -23,6 +27,12 @@ Brave, Chrome, Vivaldi, Edge 등 Chromium 기반 데스크톱 브라우저에서
 | `Shift` + 실행 | 새 창에서 열기 |
 | `Ctrl` + 실행 | 백그라운드 탭에서 열기 |
 | `Ctrl+Shift` + 실행 | 새 탭에서 열기 |
+
+## 미리보기
+
+| 사용자 URL 바로가기 | 북마크 바 바로가기 |
+| :---: | :---: |
+| ![Hotmark 사용자 URL 바로가기 설정](docs/images/hotmark-shortcuts.webp) | ![Hotmark 북마크 바 바로가기 설정](docs/images/hotmark-bookmarks.webp) |
 
 ## 설치
 
@@ -94,7 +104,7 @@ Hotmark는 북마크를 생성하거나 수정하거나 삭제하지 않습니�
 
 Hotmark는 브라우저 API 외에 런타임 의존성이 없습니다. Node.js는 검증과 테스트에만 사용합니다.
 
-아이콘 원본은 `design/icon-master.png`에 보관하며 브라우저 및 스토어용 크기별 아이콘은 `assets/`에 저장합니다.
+아이콘 원본은 `design/icon-master.png`에 보관합니다. 브라우저 아이콘은 `assets/`, Chrome 웹 스토어용 이미지는 `design/store-assets/`, README용 최적화 이미지는 `docs/images/`에 저장합니다.
 
 ```powershell
 npm run check

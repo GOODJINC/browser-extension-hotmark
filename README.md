@@ -8,6 +8,10 @@ Hotmark is a Chromium browser extension that opens frequently used web pages and
 
 It supports Chromium-based desktop browsers such as Brave, Chrome, Vivaldi, and Edge.
 
+<p align="center">
+  <img src="docs/images/hotmark-overview.webp" alt="Hotmark popup with custom URL and bookmark shortcuts" width="960">
+</p>
+
 ## Features
 
 - Register up to 10 custom URL shortcuts
@@ -23,6 +27,12 @@ Navigate the popup and bookmark folders with the arrow keys, `Home`, `End`, `Ent
 | `Shift` + open | Open in a new window |
 | `Ctrl` + open | Open in a background tab |
 | `Ctrl+Shift` + open | Open in a new tab |
+
+## Preview
+
+| Custom URL shortcuts | Bookmark bar shortcuts |
+| :---: | :---: |
+| ![Configure custom URL shortcuts in Hotmark](docs/images/hotmark-shortcuts.webp) | ![Configure bookmark bar shortcuts in Hotmark](docs/images/hotmark-bookmarks.webp) |
 
 ## Installation
 
@@ -94,7 +104,7 @@ Hotmark does not create, edit, or delete bookmarks. See the [Privacy Policy](PRI
 
 Hotmark has no runtime dependencies outside the browser APIs. Node.js is used only for validation and tests.
 
-The original icon artwork is stored in `design/icon-master.png`. Browser and store icon sizes are generated under `assets/`.
+The original icon artwork is stored in `design/icon-master.png`. Browser icons are generated under `assets/`, Chrome Web Store artwork is stored in `design/store-assets/`, and optimized README images are stored in `docs/images/`.
 
 ```powershell
 npm run check
